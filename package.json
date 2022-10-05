@@ -2,7 +2,7 @@
   "name": "airthings-sync-to-sheets",
   "version": "1.0.0",
   "description": "To sync data from my Airthings View Plus to Google Sheets",
-  "main": "index.js",
+  "main": "Code.ts",
   "author": "David Veszelovszki",
   "license": "MIT",
   "private": false,
