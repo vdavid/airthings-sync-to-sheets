@@ -1,5 +1,5 @@
 // Using a namespace because https://github.com/google/clasp/blob/master/docs/typescript.md#modules-exports-and-imports
-namespace Airthings {
+namespace AirthingsApi {
     export type AirthingsReading = {
         'battery': number // (100)
         'co2': number // (955.0)

@@ -16,3 +16,4 @@ The target spreadsheet is [here](https://docs.google.com/spreadsheets/d/1y3qp7ux
 
 Use `yarn watch` to develop.
 Use `yarn push` for a single deploy.
+Go to the [script](https://script.google.com/u/0/home/projects/1k7DPEZZyHuwebXdROXOx1cJvxSPXF0u-Jb9Qwp7lOCRxEE9ujhZLzxfX/edit) to run it

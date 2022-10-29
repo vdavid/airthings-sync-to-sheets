@@ -1,13 +1,13 @@
-import AirthingsReading = Airthings.AirthingsReading
+import AirthingsReading = AirthingsApi.AirthingsReading
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet
 
 namespace SpreadsheetWriter {
-    export function addDataToSpreadsheet(data: AirthingsReading): void {
+    export function addDataToSpreadsheet(data: AirthingsReading, waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
         const row = getFirstEmptyRowIndex(sheet)
-        const range = sheet.getRange(`R${row}C1:R${row}C12`)
-        range.setValues([convertReadingToRow(data)])
+        const range = sheet.getRange(`R${row}C1:R${row}C13`)
+        range.setValues([convertReadingToRow(data, waqiPm25)])
     }
 
 // Note: Returns a 1-based index
@@ -15,7 +15,7 @@ namespace SpreadsheetWriter {
         return sheet.getRange('A:A').getValues().findIndex(value => value[0] === '') + 1
     }
 
-    function convertReadingToRow(data: AirthingsReading): (string | number)[] {
+    function convertReadingToRow(data: AirthingsReading, waqiPm25: number): (string | number)[] {
         const date = new Date(data.time * 1000)
         return [
             getISODateString(date), // Date
@@ -25,6 +25,7 @@ namespace SpreadsheetWriter {
             data.humidity, // Humidity
             data.pm1, // PM1
             data.pm25, // 2.5
+            waqiPm25, // Outdoors PM2.5 from WAQI
             data.pressure, // Pressure
             data.radonShortTermAvg, // Radon (short-term avg)
             data.temp, // Temperature
