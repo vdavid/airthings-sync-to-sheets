@@ -6,7 +6,7 @@ namespace SpreadsheetWriter {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
         let row = getFirstEmptyRowIndex(sheet)
-        if (row === -1) {
+        if (row === 0) {
             insert100Rows(sheet)
             row = getFirstEmptyRowIndex(sheet)
         }
