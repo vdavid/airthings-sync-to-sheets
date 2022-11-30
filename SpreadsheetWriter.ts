@@ -5,16 +5,17 @@ namespace SpreadsheetWriter {
     export function addDataToSpreadsheet(data: AirthingsReading, waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
-        insert100RowsIfFull(sheet)
-        const row = getFirstEmptyRowIndex(sheet)
+        let row = getFirstEmptyRowIndex(sheet)
+        if (row === -1) {
+            insert100Rows(sheet)
+            row = getFirstEmptyRowIndex(sheet)
+        }
         const range = sheet.getRange(`R${row}C1:R${row}C13`)
         range.setValues([convertReadingToRow(data, waqiPm25)])
     }
 
-    function insert100RowsIfFull(sheet: Sheet): void {
-        if (sheet.getLastRow() === sheet.getMaxRows()) {
-            sheet.insertRowsAfter(sheet.getMaxRows(), 100)
-        }
+    function insert100Rows(sheet: Sheet): void {
+        sheet.insertRowsAfter(sheet.getMaxRows(), 100)
     }
 
     // Note: Returns a 1-based index
