@@ -43,11 +43,11 @@ namespace SpreadsheetWriter {
         ]
     }
 
-    function getISODateString(date) {
+    function getISODateString(date: Date) {
         return (date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + (date.getDate())).slice(-2))
     }
 
-    function getISOTimeString(date) {
+    function getISOTimeString(date: Date) {
         return (date.getHours() + ':' + ('0' + (date.getMinutes())).slice(-2) + ':' + ('0' + (date.getSeconds())).slice(-2))
     }
 }

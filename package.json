@@ -11,6 +11,6 @@
     "watch": "clasp push --watch"
   },
   "dependencies": {
-    "@types/google-apps-script": "^1.0.55"
+    "@types/google-apps-script": "^1.0.68"
   }
 }

@@ -33,7 +33,7 @@ namespace AirthingsApi {
     }
 
     export function getLatestSamples(token: string, serialNumber: string): AirthingsReading {
-        let response
+        let response: GoogleAppsScript.URL_Fetch.HTTPResponse
         try {
             response = UrlFetchApp.fetch(`https://ext-api.airthings.com/v1/devices/${serialNumber}/latest-samples`, {
                 method: 'get',
