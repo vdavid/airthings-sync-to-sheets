@@ -2,7 +2,7 @@ import AirthingsReading = AirthingsApi.AirthingsReading
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet
 
 namespace SpreadsheetWriter {
-    export function addDataToSpreadsheet(data: AirthingsReading, waqiPm25: number): void {
+    export function addDataToSpreadsheet(reading: AirthingsReading, waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
         let row = getFirstEmptyRowIndex(sheet)
@@ -11,7 +11,7 @@ namespace SpreadsheetWriter {
             row = getFirstEmptyRowIndex(sheet)
         }
         const range = sheet.getRange(`R${row}C1:R${row}C13`)
-        range.setValues([convertReadingToRow(data, waqiPm25)])
+        range.setValues([convertReadingToRow(reading, waqiPm25)])
     }
 
     function insert100Rows(sheet: Sheet): void {
@@ -24,22 +24,22 @@ namespace SpreadsheetWriter {
         return sheet.getRange('A:A').getValues().findIndex(value => value[0] === '') + 1
     }
 
-    function convertReadingToRow(data: AirthingsReading, waqiPm25: number): (string | number)[] {
-        const date = new Date(data.time * 1000)
+    function convertReadingToRow(reading: AirthingsReading, waqiPm25: number): (string | number)[] {
+        const date = new Date(reading.time * 1000)
         return [
             getISODateString(date), // Date
             getISOTimeString(date), // Time
-            data.battery, // Battery
-            data.co2, // CO2
-            data.humidity, // Humidity
-            data.pm1, // PM1
-            data.pm25, // 2.5
+            reading.battery, // Battery
+            reading.co2, // CO2
+            reading.humidity, // Humidity
+            reading.pm1, // PM1
+            reading.pm25, // 2.5
             waqiPm25, // Outdoors PM2.5 from WAQI
-            data.pressure, // Pressure
-            data.radonShortTermAvg, // Radon (short-term avg)
-            data.temp, // Temperature
-            data.voc, // VOC
-            data.relayDeviceType, // E.g. "hub"
+            reading.pressure, // Pressure
+            reading.radonShortTermAvg, // Radon (short-term avg)
+            reading.temp, // Temperature
+            reading.voc, // VOC
+            reading.device.name, // E.g. "View Plus"
         ]
     }
 

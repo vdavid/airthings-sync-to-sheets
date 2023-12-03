@@ -6,12 +6,18 @@ const plusSerialNumber = PropertiesService.getScriptProperties().getProperty('ai
 const waqiToken = PropertiesService.getScriptProperties().getProperty('waqiToken')
 const waqiLocation = PropertiesService.getScriptProperties().getProperty('waqiLocation')
 
+const knownDevices: AirthingsApi.Device[] = [{
+    'name': 'View Plus',
+    'serialNumber': viewPlusSerialNumber,
+}, {
+    'name': 'Plus',
+    'serialNumber': plusSerialNumber,
+}]
+
 function fetchReading() {
     const token = AirthingsApi.authenticate(clientId, secret)
-    const viewPlusData = AirthingsApi.getLatestSamples(token, viewPlusSerialNumber)
-    const plusData = AirthingsApi.getLatestSamples(token, plusSerialNumber)
+    const readings = knownDevices.map(device => AirthingsApi.getLatestSamples(token, device))
     const waqiPm25 = WaqiApi.getPm25(waqiToken, waqiLocation)
-    SpreadsheetWriter.addDataToSpreadsheet(viewPlusData, waqiPm25)
-    SpreadsheetWriter.addDataToSpreadsheet(plusData, waqiPm25)
+    readings.forEach(reading => SpreadsheetWriter.addDataToSpreadsheet(reading, waqiPm25))
 }
 
