@@ -5,10 +5,10 @@ namespace SpreadsheetWriter {
     export function addDataToSpreadsheet(reading: AirthingsReading, waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
-        let row = getFirstEmptyRowIndex(sheet)
+        let row = getFirstEmptyRowIndex(sheet, 32000)
         if (row === 0) {
             insert100Rows(sheet)
-            row = getFirstEmptyRowIndex(sheet)
+            row = getFirstEmptyRowIndex(sheet, 32000)
         }
         const range = sheet.getRange(`R${row}C1:R${row}C13`)
         range.setValues([convertReadingToRow(reading, waqiPm25)])
@@ -19,9 +19,10 @@ namespace SpreadsheetWriter {
     }
 
     // Note: Returns a 1-based index
-    // Note: sheet.getLastRow() might be a built-in alternative, but this works, so I'll leave it.
-    function getFirstEmptyRowIndex(sheet: Sheet): number {
-        return sheet.getRange('A:A').getValues().findIndex(value => value[0] === '') + 1
+    // Note: sheet.getLastRow() might be a built-in alternative, but this works, plus it supports startAt which I need
+    //       because over 32000 rows, execution just failed.
+    function getFirstEmptyRowIndex(sheet: Sheet, startAt: number = 1): number {
+        return sheet.getRange('A' + startAt + ':A').getValues().findIndex(value => value[0] === '') + startAt
     }
 
     function convertReadingToRow(reading: AirthingsReading, waqiPm25: number): (string | number)[] {
