@@ -2,16 +2,21 @@ import AirthingsReading = AirthingsApi.AirthingsReading
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet
 
 namespace SpreadsheetWriter {
-    export function addDataToSpreadsheet(reading: AirthingsReading, waqiPm25: number): void {
+    export function addDataToSpreadsheet(readings: AirthingsReading[], waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
-        let row = getFirstEmptyRowIndex(sheet, 32000)
-        if (row === 0) {
+
+        // Bump this once in two years or so to avoid running into timeouts.
+        const startAt = 32000
+
+        let row = getFirstEmptyRowIndex(sheet, startAt)
+        if (row <= startAt || row + readings.length > sheet.getMaxRows()) {
             insert100Rows(sheet)
-            row = getFirstEmptyRowIndex(sheet, 32000)
+            row = getFirstEmptyRowIndex(sheet, startAt)
         }
-        const range = sheet.getRange(`R${row}C1:R${row}C13`)
-        range.setValues([convertReadingToRow(reading, waqiPm25)])
+        const range = sheet.getRange(`R${row}C1:R${row + readings.length - 1}C13`)
+        const values = readings.map(reading => convertReadingToRow(reading, waqiPm25))
+        range.setValues(values)
     }
 
     function insert100Rows(sheet: Sheet): void {

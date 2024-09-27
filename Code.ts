@@ -15,9 +15,14 @@ const knownDevices: AirthingsApi.Device[] = [{
 }]
 
 function fetchReading() {
+    Logger.log('1: Fetching readings...')
     const token = AirthingsApi.authenticate(clientId, secret)
+    Logger.log('2: Authenticated, fetching data...')
     const readings = knownDevices.map(device => AirthingsApi.getLatestSamples(token, device))
+    Logger.log('3: Got readings, writing to spreadsheet...')
     const waqiPm25 = WaqiApi.getPm25(waqiToken, waqiLocation)
-    readings.forEach(reading => SpreadsheetWriter.addDataToSpreadsheet(reading, waqiPm25))
+    Logger.log('4: Got PM2.5 from WAQI, writing to spreadsheet...')
+    SpreadsheetWriter.addDataToSpreadsheet(readings, waqiPm25)
+    Logger.log('5: Done!')
 }
 
