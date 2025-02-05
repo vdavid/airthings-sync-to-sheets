@@ -6,14 +6,20 @@ namespace SpreadsheetWriter {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')
 
+        Logger.log('4.1: Opened the sheet.')
+
         // Bump this once in two years or so to avoid running into timeouts.
-        const startAt = 32000
+        const startAt = 2
 
         let row = getFirstEmptyRowIndex(sheet, startAt)
         if (row <= startAt || row + readings.length > sheet.getMaxRows()) {
             insert100Rows(sheet)
             row = getFirstEmptyRowIndex(sheet, startAt)
+            Logger.log('4.2: Inserted rows.')
+        } else {
+            Logger.log('4.2: Found empty rows.')
         }
+
         const range = sheet.getRange(`R${row}C1:R${row + readings.length - 1}C13`)
         const values = readings.map(reading => convertReadingToRow(reading, waqiPm25))
         range.setValues(values)
