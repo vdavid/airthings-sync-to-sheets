@@ -13,5 +13,9 @@
   },
   "dependencies": {
     "@types/google-apps-script": "^1.0.68"
+  },
+  "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "pnpm": ">=11"
   }
 }
