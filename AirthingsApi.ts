@@ -1,5 +1,6 @@
-// Using a namespace because https://github.com/google/clasp/blob/master/docs/typescript.md#modules-exports-and-imports
-namespace AirthingsApi {
+// Exported namespace: esbuild bundles each file as a module, so the namespace must be a named export for
+// consumers to `import { AirthingsApi }` and resolve it (a bare namespace gets renamed and won't link).
+export namespace AirthingsApi {
     export type Device = {
         name: string
         serialNumber: string

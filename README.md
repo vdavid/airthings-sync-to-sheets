@@ -14,9 +14,14 @@ The target spreadsheet is [here](https://docs.google.com/spreadsheets/d/1y3qp7ux
 
 ## Development
 
-Use `pnpm watch` to develop.
-Use `pnpm push` for a single deploy.
-Go to the [script](https://script.google.com/u/0/home/projects/1k7DPEZZyHuwebXdROXOx1cJvxSPXF0u-Jb9Qwp7lOCRxEE9ujhZLzxfX/edit) to run it
+The TypeScript sources use namespaces and bundle into a single Apps Script file with esbuild (via `build.mjs` and `esbuild-gas-plugin`), then push with clasp. Node and clasp are both local: Node is pinned in `.mise.toml`, clasp is a dev dependency.
+
+- `pnpm typecheck` checks types with `tsc --noEmit`.
+- `pnpm build` bundles the sources into `dist/`.
+- `pnpm push` builds, then pushes to Apps Script.
+- `pnpm deploy` builds, pushes, and creates a new deployment.
+
+Go to the [script](https://script.google.com/u/0/home/projects/1k7DPEZZyHuwebXdROXOx1cJvxSPXF0u-Jb9Qwp7lOCRxEE9ujhZLzxfX/edit) to run it.
 
 ## Troubleshooting
 

@@ -1,7 +1,8 @@
+import { AirthingsApi } from './AirthingsApi'
 import AirthingsReading = AirthingsApi.AirthingsReading
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet
 
-namespace SpreadsheetWriter {
+export namespace SpreadsheetWriter {
     export function addDataToSpreadsheet(readings: AirthingsReading[], waqiPm25: number): void {
         SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/15ccFkUaWRUZtLk0C0dT8EN9qYWf_1aah0WoD4ii5rpQ/')
         const sheet = SpreadsheetApp.getActive().getSheetByName('Readings')

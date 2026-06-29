@@ -1,6 +1,6 @@
 // API docs: https://aqicn.org/json-api/doc/
 
-namespace WaqiApi {
+export namespace WaqiApi {
     export function getPm25(token: string, location: string): number | null {
         const url = `https://api.waqi.info/feed/${location}/?token=${token}`
         try {

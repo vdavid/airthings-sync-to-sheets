@@ -1,3 +1,7 @@
+import { AirthingsApi } from './AirthingsApi'
+import { WaqiApi } from './WaqiApi'
+import { SpreadsheetWriter } from './SpreadsheetWriter'
+
 const clientId = PropertiesService.getScriptProperties().getProperty('airthingsClientId')
 const secret = PropertiesService.getScriptProperties().getProperty('airthingsSecret')
 // Get the serial number from the Airthings dashboard: https://dashboard.airthings.com/devices
@@ -25,4 +29,10 @@ function fetchReading() {
     SpreadsheetWriter.addDataToSpreadsheet(readings, waqiPm25)
     Logger.log('5: Done!')
 }
+
+// GAS only sees top-level function declarations. esbuild bundles everything into an IIFE, so we expose the
+// entry point on `global` (set to the GAS global scope by esbuild-gas-plugin's banner); the plugin emits a
+// matching top-level stub so the function shows up in the Apps Script UI and triggers.
+declare const global: Record<string, unknown>
+global.fetchReading = fetchReading
 
