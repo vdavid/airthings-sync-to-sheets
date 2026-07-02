@@ -1,6 +1,6 @@
 import { AirthingsApi } from './AirthingsApi'
-import AirthingsReading = AirthingsApi.AirthingsReading
-import Sheet = GoogleAppsScript.Spreadsheet.Sheet
+type AirthingsReading = AirthingsApi.AirthingsReading
+type Sheet = GoogleAppsScript.Spreadsheet.Sheet
 
 export namespace SpreadsheetWriter {
     export function addDataToSpreadsheet(readings: AirthingsReading[], waqiPm25: number): void {
